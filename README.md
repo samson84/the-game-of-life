@@ -18,5 +18,5 @@ A simple React app, where you can play The Game of Life
 ## Worklog
 
 - [x] Init project, 20 mins
-- [ ] Create a basic game lib, 30 mins
-- [ ] 
+- [x] Create a game lib, basic structure 30 mins
+- [x] Game Lib: Add the create game and toggle game functionality + tests, 90 mins

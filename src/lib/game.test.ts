@@ -13,7 +13,7 @@ const universeFixture2by2 = () => [
 
 const gameFixture = (overrides: Partial<Game> = {}): Game => ({
   seed: universeFixture2by2(),
-  current: universeFixture2by2(),
+  current: null,
   generation: 0,
   ...overrides,
 });
@@ -27,8 +27,11 @@ describe("createGame", () => {
 
     expect(current).toEqual(
       gameFixture({
-        seed: universeFixture2by3(),
-        current: universeFixture2by3(),
+        seed: [
+          [false, false],
+          [false, false],
+          [false, false],
+        ],
         generation: 0,
       })
     );
@@ -81,16 +84,16 @@ describe("toggleCell", () => {
     const game = createGame(width, height);
     const current = toggleCell(game, 1, 0);
 
-    expect(current).toEqual({
-      seed: universeFixture2by2(),
-      current: [
-        [false, true],
-        [false, false],
-      ],
-      generation: 0,
-    });
+    expect(current).toEqual(
+      gameFixture({
+        seed: [
+          [false, true],
+          [false, false],
+        ],
+        generation: 0,
+      })
+    );
   });
-
   it("should toggle back", () => {
     const width = 2;
     const height = 2;
@@ -99,14 +102,15 @@ describe("toggleCell", () => {
     const toggled = toggleCell(game, 1, 0);
     const current = toggleCell(toggled, 1, 0);
 
-    expect(current).toEqual({
-      seed: universeFixture2by2(),
-      current: [
-        [false, false],
-        [false, false],
-      ],
-      generation: 0,
-    });
+    expect(current).toEqual(
+      gameFixture({
+        seed: [
+          [false, false],
+          [false, false],
+        ],
+        generation: 0,
+      })
+    );
   });
 
   describe("when it is not the initial generation", () => {
