@@ -5,6 +5,7 @@ import {
   createEmptyUniverse,
   mapUniverse,
   getDimenstions,
+  countNeighbours,
 } from "./universe";
 
 export class GameError extends Error {}
@@ -42,5 +43,24 @@ export const toggleCell = (game: Game, x: number, y: number): Game => {
   return {
     ...game,
     seed: modified,
+  };
+};
+
+export const nextState = (game: Game): Game => {
+  const universe = game.current ?? mapUniverse(game.seed);
+  const next = mapUniverse(universe, (x, y, value) => {
+    const neighbours = countNeighbours(universe, x, y);
+    const isReproduction = !value && neighbours === 3;
+    const isAlive = value && [2, 3].includes(neighbours);
+    const isUnderpopulation = value && neighbours < 2;
+    const isOverPopulation = value && neighbours > 3;
+    return (
+      isReproduction || (isAlive && !(isUnderpopulation || isOverPopulation))
+    );
+  });
+  return {
+    ...game,
+    generation: game.generation + 1,
+    current: next,
   };
 };

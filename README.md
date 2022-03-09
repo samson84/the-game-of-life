@@ -22,4 +22,5 @@ A simple React app, where you can play The Game of Life
 - [x] Game Lib: Add the create game and toggle game functionality + tests, 90 mins
 - [x] Add a basic checkbox renderer, display the universe, it is possible
       to toggle the cells. 60 mins
-- [x] showing the generations and the population
+- [x] showing the generations and the population, 40 mins
+- [ ] creating a basic structure for the next step calulation, debug needed 30 mins

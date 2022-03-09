@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createGame, Game, toggleCell } from "../lib/game";
+import { createGame, Game, nextState, toggleCell } from "../lib/game";
 import CheckboxRenderer from "./CheckboxRenderer";
 import Controls from "./Controls";
 import Status from "./Status";
@@ -15,10 +15,12 @@ function App() {
 
   const handleClear = () => setGame(createGame(WIDTH, HEIGHT));
 
+  const handleNext = () => setGame(nextState(game));
+
   return (
     <>
       <h1>The Game Of Life</h1>
-      <Controls onClear={handleClear} />
+      <Controls onClear={handleClear} onNext={handleNext} />
       <Status game={game} />
       <CheckboxRenderer universe={game.seed} onToggle={handleToggle} />
     </>
