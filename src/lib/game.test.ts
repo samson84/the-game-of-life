@@ -1,22 +1,5 @@
-import { createGame, GameError, toggleCell, Game } from "./game";
-
-const universeFixture2by3 = () => [
-  [false, false],
-  [false, false],
-  [false, false],
-];
-
-const universeFixture2by2 = () => [
-  [false, false],
-  [false, false],
-];
-
-const gameFixture = (overrides: Partial<Game> = {}): Game => ({
-  seed: universeFixture2by2(),
-  current: null,
-  generation: 0,
-  ...overrides,
-});
+import { createGame, GameError, toggleCell } from "./game";
+import { gameFixture, universeFixture2by3 } from "./test/fixtures";
 
 describe("createGame", () => {
   it("should create a game", () => {

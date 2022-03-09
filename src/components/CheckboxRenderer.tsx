@@ -12,12 +12,13 @@ const CheckboxRenderer = ({
   return (
     <>
       {universe.map((row, y) => (
-        <div>
+        <div key={y}>
           {row.map((cell, x) => (
             <input
+              key={x}
               type="checkbox"
               checked={cell}
-              onClick={() => onToggle(x, y)}
+              onChange={() => onToggle(x, y)}
             />
           ))}
         </div>

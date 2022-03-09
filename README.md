@@ -4,11 +4,11 @@ A simple React app, where you can play The Game of Life
 
 ## Requirements
 
-- [ ] 30x30 cells at minimum, surrounded by buttons.
-- [ ] Indicators show the generation number and the size of population.
+- [x] 30x30 cells at minimum, surrounded by buttons.
+- [x] Indicators show the generation number and the size of population.
 - [ ] Initial state (0th generation):
-  - [ ] Initial state (0th generation) can be set by clicking on cells, toggling their state,
-  - [ ] the cell states can be cleared with a button.
+  - [x] Initial state (0th generation) can be set by clicking on cells, toggling their state,
+  - [x] the cell states can be cleared with a button.
 - [ ] Running (>0th generations):
   - [ ] Simulation can be played (started) and paused,
   - [ ] stepped forward with one step,
@@ -20,3 +20,6 @@ A simple React app, where you can play The Game of Life
 - [x] Init project, 20 mins
 - [x] Create a game lib, basic structure 30 mins
 - [x] Game Lib: Add the create game and toggle game functionality + tests, 90 mins
+- [x] Add a basic checkbox renderer, display the universe, it is possible
+      to toggle the cells. 60 mins
+- [x] showing the generations and the population

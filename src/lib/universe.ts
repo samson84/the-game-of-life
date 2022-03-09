@@ -18,3 +18,9 @@ export const getDimenstions = (universe: Universe): [Width, Height] => {
   const width = universe[0]?.length;
   return [width, height];
 };
+
+export const countPopulation = (universe: Universe): number =>
+  universe
+    .flat()
+    .map((cell): number => (cell ? 1 : 0))
+    .reduce((current, sum) => current + sum, 0);
