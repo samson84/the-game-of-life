@@ -2,6 +2,12 @@
 
 A simple React app, where you can play The Game of Life
 
+## Usage
+
+It is a classic Create React App. Issue `npm i` and `npm start` right after you check out.
+
+You can run the unit and integration like tests with the `npm test` command as usual.
+
 ## Requirements
 
 - [x] 30x30 cells at minimum, surrounded by buttons.

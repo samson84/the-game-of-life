@@ -10,12 +10,14 @@ const Status = ({ game }: StatusProps): JSX.Element => {
   const population = countPopulation(game.current ?? game.seed);
   return (
     <div>
-      <p>
+      <div>
         <strong>Generation:</strong>
         <span>{generation}</span>
+      </div>
+      <div>
         <strong>Population:</strong>
         <span>{population}</span>
-      </p>
+      </div>
     </div>
   );
 };
