@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useTimer from "../hooks/useTimer";
 import {
   createGame,
   Game,
   isInitialState,
   nextState,
-  reset,
+  resetGame,
   toggleCell,
 } from "../lib/game";
 import CheckboxRenderer from "./CheckboxRenderer";
@@ -16,13 +17,20 @@ const HEIGHT = 30;
 
 function App() {
   const [game, setGame] = useState<Game>(createGame(WIDTH, HEIGHT));
+  const { start, stop, running, count } = useTimer();
+
+  useEffect(() => {
+    if (running) {
+      setGame(nextState(game));
+    }
+  }, [count, running]);
 
   const handleToggle = (x: number, y: number) =>
     setGame(toggleCell(game, x, y));
 
   const handleClear = () => setGame(createGame(WIDTH, HEIGHT));
   const handleNext = () => setGame(nextState(game));
-  const handleReset = () => setGame(reset(game));
+  const handleReset = () => setGame(resetGame(game));
 
   const universe = game.current ?? game.seed;
 
@@ -33,6 +41,9 @@ function App() {
         onClear={handleClear}
         onNext={handleNext}
         onReset={handleReset}
+        onStart={start}
+        onStop={stop}
+        isRunning={running}
         game={game}
       />
       <Status game={game} />

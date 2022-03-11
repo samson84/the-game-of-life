@@ -46,7 +46,7 @@ export const toggleCell = (game: Game, x: number, y: number): Game => {
   };
 };
 
-export const reset = (game: Game): Game => ({
+export const resetGame = (game: Game): Game => ({
   ...game,
   generation: 0,
   current: null,
