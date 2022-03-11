@@ -7,7 +7,7 @@ export const createEmptyUniverse = (width: Width, height: Height): Universe => {
   return Array.from({ length: height }, () => [...row]);
 };
 
-const identity = (x: number, y: number, value: boolean): boolean => value;
+const identity = (x: number, y: number, value: boolean) => value;
 export const mapUniverse = (
   universe: Universe,
   mapper: (x: number, y: number, value: boolean) => boolean = identity
@@ -20,6 +20,9 @@ export const getDimenstions = (universe: Universe): [Width, Height] => {
   return [width, height];
 };
 
+export const getCell = (universe: Universe, x: number, y: number) =>
+  universe[y][x];
+
 export const countPopulation = (universe: Universe): number =>
   universe
     .flat()
@@ -31,6 +34,7 @@ export const countNeighbours = (
   x: number,
   y: number
 ): number => {
+  const [width, height] = getDimenstions(universe);
   const neighbourCoordinates: [number, number][] = [
     [x - 1, y],
     [x + 1, y],
@@ -41,8 +45,9 @@ export const countNeighbours = (
     [x + 1, y + 1],
     [x, y + 1],
   ];
+
   return neighbourCoordinates
-    .filter(([x, y]) => x >= 0 && y >= 0)
-    .map(([x, y]): number => (universe[x][y] ? 1 : 0))
+    .filter(([x, y]) => x >= 0 && y >= 0 && x < width && y < height)
+    .map(([x, y]): number => (getCell(universe, x, y) ? 1 : 0))
     .reduce((current, sum) => current + sum, 0);
 };

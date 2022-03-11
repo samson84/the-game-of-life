@@ -46,6 +46,12 @@ export const toggleCell = (game: Game, x: number, y: number): Game => {
   };
 };
 
+export const reset = (game: Game): Game => ({
+  ...game,
+  generation: 0,
+  current: null,
+});
+
 export const nextState = (game: Game): Game => {
   const universe = game.current ?? mapUniverse(game.seed);
   const next = mapUniverse(universe, (x, y, value) => {
@@ -54,9 +60,13 @@ export const nextState = (game: Game): Game => {
     const isAlive = value && [2, 3].includes(neighbours);
     const isUnderpopulation = value && neighbours < 2;
     const isOverPopulation = value && neighbours > 3;
-    return (
-      isReproduction || (isAlive && !(isUnderpopulation || isOverPopulation))
-    );
+    if (isReproduction || isAlive) {
+      return true;
+    }
+    if (isOverPopulation || isUnderpopulation) {
+      return false;
+    }
+    return value;
   });
   return {
     ...game,
@@ -64,3 +74,5 @@ export const nextState = (game: Game): Game => {
     current: next,
   };
 };
+
+export const isInitialState = (game: Game) => game.generation === 0;

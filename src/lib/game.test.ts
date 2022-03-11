@@ -1,5 +1,21 @@
-import { createGame, GameError, toggleCell } from "./game";
-import { gameFixture, universeFixture2by3 } from "./test/fixtures";
+import each from "jest-each";
+import { createGame, GameError, nextState, toggleCell, Game } from "./game";
+import {
+  gameFixture,
+  oneNeighbours3by3,
+  universeFixture2by3,
+  universeFixture3by3,
+  zeroNeighbours3by3,
+} from "./test/fixtures";
+import { Universe } from "./universe";
+
+const gameFixture1stGen3by3 = (overrides: Partial<Game>) =>
+  gameFixture({
+    seed: universeFixture3by3(),
+    current: universeFixture3by3(),
+    generation: 1,
+    ...overrides,
+  });
 
 describe("createGame", () => {
   it("should create a game", () => {
@@ -163,6 +179,138 @@ describe("toggleCell", () => {
           new GameError("coordinates_out_of_range")
         );
       });
+    });
+  });
+});
+
+describe("nextState", () => {
+  describe("from initial state", () => {
+    it("should set current with the initial state", () => {
+      const game = gameFixture({ seed: universeFixture3by3() });
+
+      const current = nextState(game);
+
+      expect(current.current).toEqual(universeFixture3by3());
+    });
+
+    it("should increase the generation", () => {
+      const game = gameFixture({ seed: universeFixture3by3() });
+
+      const current = nextState(game);
+
+      expect(current.generation).toEqual(1);
+    });
+  });
+  describe("life and death", () => {
+    describe("Any live cell with fewer than two live neighbours dies", () => {
+      each(zeroNeighbours3by3()).test(
+        "should die, when has 0 neighbour",
+        (currentUniverse: Universe) => {
+          const game = gameFixture1stGen3by3({
+            current: currentUniverse,
+          });
+
+          const current = nextState(game);
+
+          expect(current.current).toEqual([
+            [false, false, false],
+            [false, false, false],
+            [false, false, false],
+          ]);
+        }
+      );
+
+      each(oneNeighbours3by3()).test("should die, when 1 neighbour", () => {
+        const game = gameFixture1stGen3by3({
+          current: [
+            [false, false, false],
+            [false, true, true],
+            [false, false, false],
+          ],
+        });
+
+        const current = nextState(game);
+
+        expect(current.current).toEqual([
+          [false, false, false],
+          [false, false, false],
+          [false, false, false],
+        ]);
+      });
+    });
+
+    describe("Any live cell with two or three live neighbours lives", () => {
+      it("with two cells", () => {
+        const game = gameFixture1stGen3by3({
+          current: [
+            [true, false, false],
+            [false, true, false],
+            [false, false, true],
+          ],
+        });
+
+        const current = nextState(game);
+
+        expect(current.current).toEqual([
+          [false, false, false],
+          [false, true, false],
+          [false, false, false],
+        ]);
+      });
+
+      it("with three cells", () => {
+        const game = gameFixture1stGen3by3({
+          current: [
+            [true, false, true],
+            [false, true, false],
+            [false, false, true],
+          ],
+        });
+
+        const current = nextState(game);
+
+        expect(current.current).toEqual([
+          [false, true, false],
+          [false, true, true],
+          [false, false, false],
+        ]);
+      });
+    });
+
+    it("Any live cell with more than three live neighbours dies, as if by overpopulation.", () => {
+      const game = gameFixture1stGen3by3({
+        current: [
+          [true, true, true],
+          [true, true, true],
+          [true, true, true],
+        ],
+      });
+
+      const current = nextState(game);
+
+      expect(current.current).toEqual([
+        [true, false, true],
+        [false, false, false],
+        [true, false, true],
+      ]);
+    });
+
+    it("Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.", () => {
+      const game = gameFixture1stGen3by3({
+        current: [
+          [true, true, false],
+          [true, false, false],
+          [false, false, false],
+        ],
+      });
+
+      const current = nextState(game);
+
+      expect(current.current).toEqual([
+        [true, true, false],
+        [true, true, false],
+        [false, false, false],
+      ]);
     });
   });
 });

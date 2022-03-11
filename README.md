@@ -23,4 +23,6 @@ A simple React app, where you can play The Game of Life
 - [x] Add a basic checkbox renderer, display the universe, it is possible
       to toggle the cells. 60 mins
 - [x] showing the generations and the population, 40 mins
-- [ ] creating a basic structure for the next step calulation, debug needed 30 mins
+- [x] creating a basic structure for the next step calulation, debug needed 30 mins
+- [x] debugging adding some tests 45 mins
+- [x] correct the next state calculation, cover with test, add Reset 90 mins 
